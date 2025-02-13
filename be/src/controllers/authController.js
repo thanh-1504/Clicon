@@ -1,3 +1,4 @@
+const path = require("path");
 const dotenv = require("dotenv");
 const jwt = require("jsonwebtoken");
 const fireBaseAdmin = require("firebase-admin");
@@ -5,10 +6,9 @@ const User = require("../models/userModel");
 const AppError = require("../ultils/AppError");
 const catchAsync = require("../ultils/catchAsync");
 dotenv.config({ path: "./config.env" });
-console.log(process.env.FIREBASE_CREDENTIAL_PATH);
 fireBaseAdmin.initializeApp({
   credential: fireBaseAdmin.credential.cert(
-    require(process.env.FIREBASE_CREDENTIAL_PATH)
+    require(path.join(__dirname, "credentials.json"))
   ),
 });
 
