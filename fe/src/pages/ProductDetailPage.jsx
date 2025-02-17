@@ -46,7 +46,7 @@ function ProductDetailPage() {
   const [loading, setLoading] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
   const [dataRelated, setDataRelated] = useState([]);
-  const isAdmin = JSON.parse(localStorage.getItem("user")).role;
+  const isAdmin = JSON.parse(localStorage.getItem("user"))?.role;
   const { data, activeImageOnClick, srcActiveImage, quantityProduct } =
     useSelector((state) => state.productDetail);
   const settings = {
