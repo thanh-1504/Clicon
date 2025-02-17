@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { IoIosArrowDown, IoIosSearch } from "react-icons/io";
+import { IoIosArrowDown } from "react-icons/io";
 import ReactPaginate from "react-paginate";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
@@ -19,10 +19,12 @@ import {
 } from "../redux/slices/shopPageSlice";
 
 function ShopPage() {
+  window.scrollTo(0, 0);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const [pageCount, setPageCount] = useState(0);
-  const [isFiltered, setIsFilterd] = useState(false);
+  const [resultFound, setResultFound] = useState(0);
   const [sortBy, setSortBy] = useState("");
   const [querySearch, setQuerySearch] = useState("");
   const { categoryProduct } = useParams();
@@ -35,8 +37,6 @@ function ShopPage() {
   const { register, handleSubmit } = useForm();
   // Handle pagination
   const handlePageClick = (e) => {
-    setIsFilterd(true);
-    console.log(querySearch);
     navigate(
       `${
         querySearch
@@ -65,30 +65,63 @@ function ShopPage() {
     );
     const query = window.location.search;
     dispatch(handleGetFilterProduct2(query)).then((data) => {
-      setIsFilterd(true);
-      setPageCount(Math.ceil(data?.payload.result / 5));
+      setResultFound(data?.payload.result);
+      setPageCount(Math.ceil(data?.payload.result / 20));
       dispatch(handleSetDataFilterProduct(data?.payload.products));
     });
     setQuerySearch(query);
   };
 
+  const handleFilterProductByInputSearch = (e) => {
+    if (e.key === "Enter") {
+      navigate(`?category=all&filter=${e.target.value}`);
+      const query = window.location.search;
+      dispatch(handleGetFilterProduct2(query)).then((data) => {
+        dispatch(handleSetDataFilterProduct(data?.payload.products));
+        setResultFound(data?.payload.result);
+        setPageCount(Math.ceil(data?.payload.result / 20));
+      });
+      setQuerySearch(query);
+      e.target.value = "";
+    }
+  };
+
   useEffect(() => {
-    dispatch(handleGetProductByCategory(categoryProduct)).then((data) => {
+    async function fetchProduct() {
+      setLoading(true);
+      const data = await dispatch(handleGetProductByCategory(categoryProduct));
       dispatch(handleSetDataCategoryProduct(data?.payload?.products));
-      setPageCount(data?.payload.result / 5);
-    });
+      setResultFound(data?.payload.result);
+      setPageCount(data?.payload.result / 20);
+      setLoading(false);
+    }
+    fetchProduct();
     return () => {
       dispatch(handleSetDataFilterProduct([]));
       dispatch(handleSetDataCategoryProduct([]));
     };
   }, [dispatch, categoryProduct]);
-  console.log(dataFilterProduct);
+
   return (
     <div className="pt-[120px] flex items-start lg:justify-center px-2">
       <aside className="w-1/5 sm:hidden lg:block">
         <h2 className="uppercase font-medium text-sm mb-2">CATEGORY</h2>
         <form onSubmit={handleSubmit(handleFilterProduct)}>
           <div>
+            <div>
+              <input
+                type="radio"
+                name="category"
+                id="all"
+                value="all"
+                {...register("category")}
+                className="input__radio hidden"
+                defaultChecked={categoryProduct === "all"}
+              />
+              <label htmlFor="all" className="custom__inputRadio text-sm">
+                All Product
+              </label>
+            </div>
             <div>
               <input
                 type="radio"
@@ -132,6 +165,23 @@ function ShopPage() {
               />
               <label htmlFor="headphone" className="custom__inputRadio text-sm">
                 Headphone
+              </label>
+            </div>
+            <div>
+              <input
+                type="radio"
+                id="accessories"
+                name="accessories"
+                value="accessories"
+                {...register("category")}
+                className="input__radio hidden"
+                defaultChecked={categoryProduct === "accessories"}
+              />
+              <label
+                htmlFor="accessories"
+                className="custom__inputRadio text-sm"
+              >
+                Accessories
               </label>
             </div>
             <div>
@@ -282,13 +332,14 @@ function ShopPage() {
             <div className="w-2/4 relative">
               <input
                 type="search"
-                className="w-full outline-none pl-2 pr-8 py-2 text-sm rounded-sm border border-slate-300"
+                className="w-full outline-none pl-2 py-2 text-sm rounded-sm border border-slate-300"
                 placeholder="Search for anything..."
+                onKeyDown={handleFilterProductByInputSearch}
               />
-              <IoIosSearch className="absolute right-2 bottom-2/4 translate-y-2/4 cursor-pointer w-5 h-5" />
             </div>
             <span className="text-sm">
-              65867 <span className="text-slate-500">Results found</span>
+              {resultFound}{" "}
+              <span className="text-slate-500">Results found</span>
             </span>
           </div>
           <div className="styled-select relative select-none">
@@ -323,34 +374,46 @@ function ShopPage() {
           </div>
         </div>
         <div className="grid lg:grid-cols-5 lg:gap-4 sm:grid-cols-2 sm:gap-y-5 sm:gap-x-4 sm:px-5 lg:px-0">
-          {dataFilterProduct.length > 0
-            ? dataFilterProduct.slice(0, 5).map((product) => {
-                return <ProductItem key={product._id} data={product} />;
-              })
-            : dataCategoryProduct.slice(0, 5).map((product) => {
-                return <ProductItem key={product._id} data={product} />;
-              })}
+          {loading
+            ? Array.from({ length: 20 }).map((_, index) => (
+                <ProductItem key={index} data={null} loadingProduct={loading} />
+              ))
+            : dataFilterProduct.length > 0
+            ? dataFilterProduct
+                .slice(0, 20)
+                .map((product) => (
+                  <ProductItem key={product._id} data={product} />
+                ))
+            : dataCategoryProduct
+                .slice(0, 20)
+                .map((product) => (
+                  <ProductItem key={product._id} data={product} />
+                ))}
         </div>
-        <div className="mt-10 mb-20">
-          <ReactPaginate
-            breakLabel="..."
-            nextLabel=">"
-            onPageChange={handlePageClick}
-            pageRangeDisplayed={5}
-            pageCount={pageCount || 1}
-            previousLabel="<"
-            pageClassName="page-item"
-            pageLinkClassName="page-link"
-            previousClassName="page-item"
-            previousLinkClassName="page-link"
-            nextClassName="page-item"
-            nextLinkClassName="page-link"
-            breakClassName="page-item"
-            breakLinkClassName="page-link"
-            containerClassName="pagination"
-            activeClassName="active"
-          />
-        </div>
+        {loading ? (
+          <div className="w-60 h-10 bg-gray-200 animate-pulse mt-10 mb-20 mx-auto rounded-sm"></div>
+        ) : (
+          <div className="mt-14">
+            <ReactPaginate
+              breakLabel="..."
+              nextLabel=">"
+              onPageChange={handlePageClick}
+              pageRangeDisplayed={5}
+              pageCount={pageCount || 1}
+              previousLabel="<"
+              pageClassName="page-item"
+              pageLinkClassName="page-link"
+              previousClassName="page-item"
+              previousLinkClassName="page-link"
+              nextClassName="page-item"
+              nextLinkClassName="page-link"
+              breakClassName="page-item"
+              breakLinkClassName="page-link"
+              containerClassName="pagination"
+              activeClassName="active"
+            />
+          </div>
+        )}
       </div>
     </div>
   );

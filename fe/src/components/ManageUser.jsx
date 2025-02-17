@@ -11,6 +11,7 @@ import {
 } from "../redux/slices/manageSlice";
 import AddUserModal from "./AddUserModal";
 function ManageUser() {
+  window.scrollTo(0, 0);
   const dispatch = useDispatch();
   const [typeManage, setTypeManage] = useState("add user");
   const [userIdEdit, setUserIdEdit] = useState("");
@@ -54,7 +55,7 @@ function ManageUser() {
                   <td>
                     <div className="flex items-center justify-center gap-x-4">
                       <LiaUserEditSolid
-                        className="w-5 h-5 cursor-pointer"
+                        className="w-5 h-5 cursor-pointer hover:fill-yellow-600"
                         onClick={() => {
                           dispatch(handleShowModalAddUser(true));
                           setTypeManage("edit user");
@@ -62,14 +63,13 @@ function ManageUser() {
                         }}
                       />
                       <AiOutlineDelete
-                        className="w-5 h-5 cursor-pointer"
+                        className="w-5 h-5 cursor-pointer hover:fill-red-500 hover:shadow-md hover:rounded-full"
                         onClick={() => {
                           const swalWithBootstrapButtons = Swal.mixin({
                             customClass: {
-                              confirmButton: "btn btn-success",
-                              cancelButton: "btn btn-danger",
+                              confirmButton: "btn btn-success bg-green-400",
                             },
-                            buttonsStyling: false,
+                            buttonsStyling: true,
                           });
                           swalWithBootstrapButtons
                             .fire({

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { FiMinus } from "react-icons/fi";
 import { GoArrowLeft, GoPlus } from "react-icons/go";
 import { HiMiniArrowRight } from "react-icons/hi2";
@@ -8,9 +8,9 @@ import { Link } from "react-router";
 import { handleCalculateMoneyShoppingCart } from "../common/handleCalculateMoneyShoppingCart";
 import {
   handleCheckout,
-  handleDeleteOrder,
-  handleGetAllOrder,
-  handleUpdateOrder,
+  handleDeleteProductInCart,
+  handleGetAllProductInCart,
+  handleUpdateProductIncart,
 } from "../redux/request";
 import {
   handleSetDataCart,
@@ -18,24 +18,30 @@ import {
   handleUpdatePrice,
   handleUpdateQuantity,
 } from "../redux/slices/cartSlice";
+import CartPageOnMobile from "./CartPageOnMobile";
 
 function CartPage() {
+  window.scrollTo(0, 0);
   const dispatch = useDispatch();
+  const screenWidth = window.innerWidth;
+  const [loading, setLoading] = useState(false);
   const { data } = useSelector((state) => state.cart);
   const subTotal = handleCalculateMoneyShoppingCart(data);
 
   const handleUpdateOrderProduct = () => {
     data.forEach((item) => {
-      dispatch(handleUpdateOrder({ id: item._id, quantity: item.quantity }));
+      dispatch(
+        handleUpdateProductIncart({ id: item._id, quantity: item.quantity })
+      );
     });
   };
 
   const handleDeleteCurrentOrder = (id) => {
-    dispatch(handleDeleteOrder(id)).then(() => {
-      dispatch(handleGetAllOrder()).then((data) => {
+    dispatch(handleDeleteProductInCart(id)).then(() => {
+      dispatch(handleGetAllProductInCart()).then((data) => {
         const money = handleCalculateMoneyShoppingCart(data);
         dispatch(handleSetTotalMoney(money));
-        dispatch(handleSetDataCart(data?.payload.orders));
+        dispatch(handleSetDataCart(data?.payload.cart));
       });
     });
   };
@@ -50,17 +56,21 @@ function CartPage() {
   };
 
   useEffect(() => {
-    dispatch(handleGetAllOrder()).then((data) => {
-      dispatch(handleSetDataCart(data?.payload.orders));
-    });
+    async function fetchData() {
+      setLoading(true);
+      const dataCart = await dispatch(handleGetAllProductInCart());
+      dispatch(handleSetDataCart(dataCart?.payload.cart));
+      setTimeout(() => {
+        setLoading(false);
+      }, 3000);
+    }
+    fetchData();
     return () => {
-      dispatch(handleGetAllOrder()).then((data) => {
-        dispatch(handleSetDataCart(data?.payload.orders));
-      });
+      fetchData();
     };
   }, [dispatch]);
   if (!data) return;
-  return (
+  return screenWidth >= 500 ? (
     <div>
       {data && data.length === 0 ? (
         <div className="flex justify-center items-center flex-col min-h-screen">
@@ -71,7 +81,7 @@ function CartPage() {
           />
           <p className="text-gray-500 text-lg font-bold">Your cart is empty.</p>
           <Link
-            to={"/"}
+            to="/"
             className="flex items-center justify-center bg-white text-blue-400 border-blue-400 border-2 font-medium p-2 px-16 rounded-sm gap-x-2 hover:cursor-pointer mt-5"
           >
             <GoArrowLeft />
@@ -82,7 +92,7 @@ function CartPage() {
         <>
           <div className="flex gap-x-5 pt-[120px] px-[100px]">
             <div>
-              <h2 className="font-medium border p-3">Shopping Card</h2>
+              <h2 className="font-medium border p-3">Shopping Cart</h2>
               <table className="border-[1.5px] rounded-sm border-slate-100 w-full text-sm">
                 <thead>
                   <tr className="bg-gray-100 text-sm uppercase font-thin text-left">
@@ -161,14 +171,14 @@ function CartPage() {
               </table>
               <div className="flex items-center border-[1.5px] border-t-transparent rounded-sm border-slate-100 justify-between px-4 py-4">
                 <Link
-                  to={"/"}
-                  className="flex items-center justify-center bg-white text-blue-400 border-blue-400 border-2 font-medium p-2 rounded-sm gap-x-2 hover:cursor-pointer "
+                  to="/"
+                  className="flex items-center justify-center bg-white text-blue-400 border-blue-400 border-2 font-medium p-2 rounded-sm gap-x-2 hover:cursor-pointer"
                 >
                   <GoArrowLeft />
                   RETURN TO SHOP
                 </Link>
                 <div
-                  className=" bg-white text-blue-400 border-blue-400 border-2 font-medium p-2 rounded-sm hover:cursor-pointer"
+                  className="bg-white text-blue-400 border-blue-400 border-2 font-medium p-2 rounded-sm hover:cursor-pointer"
                   onClick={handleUpdateOrderProduct}
                 >
                   UPDATE CART
@@ -176,7 +186,7 @@ function CartPage() {
               </div>
             </div>
             <div className="border-[1.5px] border-slate-100 p-4">
-              <h2 className="font-medium mb-3">Card Totals</h2>
+              <h2 className="font-medium mb-3">Cart Totals</h2>
               <div className="flex flex-col gap-y-2 text-sm">
                 <div>
                   <span className="text-gray-500">Sub-total</span>
@@ -196,20 +206,20 @@ function CartPage() {
                 <button
                   className="flex items-center justify-center bg-orange-color text-white font-medium p-3 rounded-sm gap-x-2 hover:cursor-pointer my-2"
                   onClick={() => {
-                    dispatch(handleCheckout({ data })).then((data) => {
-                      window.location.href = data?.payload.url;
+                    dispatch(handleCheckout({ data })).then((dataPayment) => {
+                      window.location.href = dataPayment?.payload?.url;
                     });
                   }}
                 >
                   PROCEED TO CHECKOUT
-                  <HiMiniArrowRight></HiMiniArrowRight>
+                  <HiMiniArrowRight />
                 </button>
               </div>
               <div>
                 <h2 className="font-medium">Coupon Code</h2>
                 <input
                   type="text"
-                  placeholder="Couple code"
+                  placeholder="Coupon code"
                   className="text-sm outline-none border-[1.5px] border-slate-100 p-1 w-full my-2"
                 />
                 <button className="text-white font-medium bg-blue-500 p-2 text-sm mt-1 rounded-sm">
@@ -221,6 +231,9 @@ function CartPage() {
         </>
       )}
     </div>
+  ) : (
+    // Điều kiện cho desktop hoặc màn hình lớn hơn
+    <CartPageOnMobile />
   );
 }
 

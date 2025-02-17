@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const orderSchema = new mongoose.Schema({
+const cartModel = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.ObjectId,
     ref: "User",
@@ -12,18 +12,13 @@ const orderSchema = new mongoose.Schema({
     type: Number,
     default: 1,
   },
-  // price: {
-  //   type: Number,
-  //   required: [true, "Order must have a price"],
-  // },
 });
-
-orderSchema.pre(/^find/, function (next) {
+cartModel.pre(/^find/, function (next) {
   this.populate({
     path: "product",
     select: "-__v -description -price -brand",
   });
   next();
 });
-const Order = mongoose.model("Order", orderSchema);
-module.exports = Order;
+const Cart = mongoose.model("Cart", cartModel);
+module.exports = Cart;

@@ -3,6 +3,7 @@ import { FiBox } from "react-icons/fi";
 import { LuUserRound } from "react-icons/lu";
 import { NavLink, Outlet } from "react-router";
 function AdminPage() {
+  window.scrollTo(0, 0);
   const currentUser = JSON.parse(localStorage.getItem("user"));
   return (
     <div className="flex items-start container">

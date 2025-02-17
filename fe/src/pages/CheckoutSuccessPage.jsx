@@ -3,18 +3,28 @@ import { FaRegCheckCircle } from "react-icons/fa";
 import { IoHomeOutline } from "react-icons/io5";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router";
-import { handleSetDataCart } from "../redux/slices/cartSlice";
-import { handleDeleteAllOrder, handleGetAllOrder } from "../redux/request";
+import { handleCalculateMoneyShoppingCart } from "../common/handleCalculateMoneyShoppingCart";
+import {
+  handleDeleteAllProductInCart,
+  handleGetAllProductInCart,
+} from "../redux/request";
+import {
+  handleSetDataCart,
+  handleSetTotalMoney,
+} from "../redux/slices/cartSlice";
 
 function CheckoutSuccessPage() {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(handleDeleteAllOrder()).then(() => {
-      dispatch(handleGetAllOrder()).then((data) => {
-        dispatch(handleSetDataCart(data?.payload.orders));
+    dispatch(handleDeleteAllProductInCart()).then(() => {
+      dispatch(handleGetAllProductInCart()).then((data) => {
+        const money = handleCalculateMoneyShoppingCart(data);
+        dispatch(handleSetTotalMoney(money));
+        dispatch(handleSetDataCart(data?.payload.cart));
       });
     });
   }, [dispatch]);
+
   return (
     <div className="flex flex-col gap-y-3 justify-center items-center h-screen">
       <FaRegCheckCircle className="w-12 h-12" fill="#55b94a" />

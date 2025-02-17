@@ -5,7 +5,11 @@ import { IoIosCloseCircleOutline } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router";
 import { handleCalculateMoneyShoppingCart } from "../common/handleCalculateMoneyShoppingCart";
-import { handleDeleteOrder, handleGetAllOrder } from "../redux/request";
+import {
+  handleCheckout,
+  handleDeleteProductInCart,
+  handleGetAllProductInCart,
+} from "../redux/request";
 import {
   handleSetDataCart,
   handleSetTotalMoney,
@@ -16,21 +20,24 @@ function ShoppingCart({ show, setShow }) {
   const { data, totalMoney } = useSelector((state) => state.cart);
 
   const handleDeleteCurrentOrder = (id) => {
-    dispatch(handleDeleteOrder(id)).then(() => {
-      dispatch(handleGetAllOrder()).then((data) => {
+    dispatch(handleDeleteProductInCart(id)).then(() => {
+      dispatch(handleGetAllProductInCart()).then((data) => {
         const money = handleCalculateMoneyShoppingCart(data);
         dispatch(handleSetTotalMoney(money));
-        dispatch(handleSetDataCart(data?.payload.orders));
+        dispatch(handleSetDataCart(data?.payload.cart));
       });
     });
   };
 
   useEffect(() => {
-    dispatch(handleGetAllOrder()).then((dataOrder) => {
-      const money = handleCalculateMoneyShoppingCart(dataOrder);
+    dispatch(handleGetAllProductInCart()).then((dataCart) => {
+      const money = handleCalculateMoneyShoppingCart(dataCart);
       dispatch(handleSetTotalMoney(money));
-      dispatch(handleSetDataCart(dataOrder?.payload.orders));
+      dispatch(handleSetDataCart(dataCart?.payload.cart));
     });
+    return () => {
+      setShow(false);
+    };
   }, [dispatch]);
   if (!data) return;
   return (
@@ -48,7 +55,8 @@ function ShoppingCart({ show, setShow }) {
       {data && data.length > 0 ? (
         data.map((item) => {
           return (
-            <div
+            <Link
+              to={`/product/${item.category}/${item.product._id}`}
               key={item._id}
               className="flex items-center gap-x-2 border border-slate-300 rounded-sm p-2 min-h-[74px]"
             >
@@ -72,7 +80,7 @@ function ShoppingCart({ show, setShow }) {
                 className="w-7 h-7 hover:fill-red-600 hover:cursor-pointer"
                 onClick={() => handleDeleteCurrentOrder(item._id)}
               />
-            </div>
+            </Link>
           );
         })
       ) : (
@@ -84,7 +92,6 @@ function ShoppingCart({ show, setShow }) {
           />
         </div>
       )}
-
       <hr />
       <div className="p-3 ">
         <span className="text-sm">Sub-Total:</span>
@@ -92,7 +99,15 @@ function ShoppingCart({ show, setShow }) {
           ${totalMoney && totalMoney} USD
         </span>
         <div className="mt-3 flex flex-col gap-y-3">
-          <button className="bg-orange-color text-white font-medium text-sm px-[70px] py-[10px] rounded-sm flex items-center gap-x-2">
+          <button
+            className="bg-orange-color text-white font-medium text-sm px-[70px] py-[10px] rounded-sm flex items-center gap-x-2"
+            onClick={() => {
+              if (data.length > 0)
+                dispatch(handleCheckout({ data })).then((dataPayment) => {
+                  window.location.href = dataPayment?.payload?.url;
+                });
+            }}
+          >
             CHECKOUT NOW
             <HiMiniArrowRight fill="#fff" />
           </button>

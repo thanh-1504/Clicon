@@ -1,26 +1,30 @@
 import { useState } from "react";
+import { createPortal } from "react-dom";
 import { BsCart2 } from "react-icons/bs";
-import { IoIosSearch } from "react-icons/io";
 import { IoLogOutOutline } from "react-icons/io5";
 import { MdManageAccounts, MdOutlineAdminPanelSettings } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { handleSignOut } from "../redux/request";
 import { handleShowAccountSetting } from "../redux/slices/accountSlice";
 import AccountSetting from "./AccountSetting";
 import LogoWeb from "./LogoWeb";
 import ShoppingCart from "./ShoppingCart";
-
 function Header() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
+
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [loadingSignOut, setLoadingSignOut] = useState(false);
   const { data } = useSelector((state) => state.cart);
+  const isAdmin = JSON.parse(localStorage.getItem("user"))?.role;
   const [showShoppingCart, setShowShoppingCart] = useState(false);
   const userInformation = JSON.parse(localStorage.getItem("user"));
   const { showAccountSetting } = useSelector((state) => state.account);
+  const screenWidth = window.innerWidth;
   // Handle sign out
   const handleSignOutAccount = async () => {
     setLoadingSignOut(true);
@@ -39,20 +43,11 @@ function Header() {
     >
       <div className="flex justify-between items-center h-full px-5">
         <LogoWeb />
-        {!location.pathname.startsWith("/manage") && (
-          <div className="w-[38%] relative sm:hidden lg:block">
-            <input
-              type="search"
-              className="w-full outline-none pl-2 pr-8 py-2 text-sm rounded-sm"
-              placeholder="Search for anything..."
-            />
-            <IoIosSearch className="absolute right-2 bottom-2/4 translate-y-2/4 cursor-pointer w-5 h-5 " />
-          </div>
-        )}
+
         <div>
           {userInformation?.displayName ? (
             <div className="flex items-center gap-x-5">
-              {location.pathname !== "/cart" && (
+              {location.pathname !== "/cart" && isAdmin !== "ADMIN" && (
                 <div
                   className="relative"
                   onMouseEnter={() => {
@@ -108,8 +103,22 @@ function Header() {
                   <div
                     className="flex items-center px-5 py-4 gap-x-3 cursor-pointer hover:bg-gray-100 transition-all"
                     onClick={() => {
-                      setShowUserMenu(false);
-                      dispatch(handleShowAccountSetting(true));
+                      if (screenWidth >= 800) {
+                        setShowUserMenu(false);
+                        dispatch(handleShowAccountSetting(true));
+                      } else {
+                        toast.info(
+                          "We are currently maintaining this function, sorry for the inconvenience.",
+                          {
+                            autoClose: 1000,
+                            pauseOnHover: false,
+                            containerId: "toast-header",
+                          }
+                        );
+                        setShowUserMenu(false);
+                        dispatch(handleShowAccountSetting(false));
+                        return;
+                      }
                     }}
                   >
                     <MdManageAccounts className="min-w-10" />
@@ -158,6 +167,14 @@ function Header() {
         </div>
       </div>
       {showAccountSetting && <AccountSetting />}
+      {createPortal(
+        <ToastContainer
+          limit={1}
+          containerId={"toast-header"}
+          className="custom-toast-header"
+        />,
+        document.body
+      )}
     </header>
   );
 }

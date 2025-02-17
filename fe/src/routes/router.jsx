@@ -10,6 +10,7 @@ import ProductDetailPage from "../pages/ProductDetailPage";
 import ShopPage from "../pages/ShopPage";
 import SignInPage from "../pages/SignInPage";
 import SignUpPage from "../pages/SignUpPage";
+import AccountSettingOnMobile from "../components/AccountSettingOnMobile";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -46,6 +47,10 @@ export const router = createBrowserRouter([
       {
         path: "/checkout-success",
         element: <CheckoutSuccessPage />,
+      },
+      {
+        path: "/account",
+        element: <AccountSettingOnMobile />,
       },
       {
         path: "/manage",

@@ -65,27 +65,27 @@ export const api = {
     method: "post",
   },
   addToCard: {
-    url: `${domain}/order/create-order`,
+    url: `${domain}/cart/add-cart`,
     method: "post",
   },
-  getAllOrder: {
-    url: `${domain}/order`,
+  getAllProductInCart: {
+    url: `${domain}/cart`,
     method: "get",
   },
-  updateOrder: {
-    url: `${domain}/order/update-order`,
+  updateProductInCart: {
+    url: `${domain}/cart/update-cart`,
     method: "post",
   },
-  deleteOrder: {
-    url: `${domain}/order/delete-order`,
+  deleteProductInCart: {
+    url: `${domain}/cart/delete-cart`,
     method: "post",
   },
-  deleteAllOrder: {
-    url: `${domain}/order/delete-allOrder`,
+  deleteAllProductInCart: {
+    url: `${domain}/cart/delete-cart`,
     method: "post",
   },
   checkOut: {
-    url: `${domain}/checkout`,
+    url: `${domain}/payment`,
     method: "post",
   },
 };

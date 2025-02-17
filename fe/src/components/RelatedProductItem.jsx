@@ -6,7 +6,7 @@ function RelatedProductItem({ data }) {
   return (
     <Link
       to={`/product/${data.category}/${data._id}`}
-      className="flex items-center justify-center gap-x-2 border border-slate-300 rounded-sm p-2 hover:cursor-pointer min-h-[74px] sm:flex-col sm:min-h-[240px] lg:min-h-0 sm:gap-y-3 lg:gap-y-0 lg:flex-row"
+      className="flex items-center gap-x-2 border border-slate-300 rounded-sm p-2 hover:cursor-pointer min-h-[74px] sm:flex-col sm:min-h-[240px] lg:min-h-0 sm:gap-y-3 lg:gap-y-0 lg:flex-row"
     >
       <div className="lg:w-[65px] sm:w-full">
         <img
@@ -16,7 +16,7 @@ function RelatedProductItem({ data }) {
           }
           alt="image related product"
           // className="min-w-[65px] max-h-[50px] object-contain w-full"
-          className="w-full h-full object-contain"
+          className="w-full h-full object-contain min-h-16 max-h-16"
         />
       </div>
       <div>

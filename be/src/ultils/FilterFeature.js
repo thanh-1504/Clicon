@@ -6,6 +6,8 @@ module.exports = class FilterFeature {
   filterByCategory() {
     if (this.queryString.category && this.queryString.category !== null)
       this.query.find({ category: this.queryString.category });
+    if (this.queryString.category && this.queryString.category === "all")
+      this.query.find({ category: { $ne: "" } });
     return this;
   }
   filterByPriceRange() {
@@ -36,26 +38,50 @@ module.exports = class FilterFeature {
   pagination() {
     if (this.queryString.page) {
       const page = +this.queryString.page || 1;
-      const skip = (page - 1) * 5;
-      // this.query.skip(skip).limit(5);
-      this.query
-        .find({ category: this.queryString.category })
-        .skip(skip)
-        .limit(5);
+      const skip = (page - 1) * 20;
+      if (this.queryString.category !== "all")
+        this.query
+          .find({ category: this.queryString.category })
+          .skip(skip)
+          .limit(20);
+      else
+        this.query
+          .find({ category: { $ne: "" } })
+          .skip(skip)
+          .limit(20);
     }
     return this;
   }
   sortByPrice() {
     if (this.queryString.sortPrice) {
-      if (this.queryString.sortPrice === "asc")
-        this.query
-          .find({ category: this.queryString.category })
-          .sort("sellingPrice");
-      else if (this.queryString.sortPrice === "desc")
-        this.query
-          .find({ category: this.queryString.category })
-          .sort("-sellingPrice");
-      else return this;
+      if (this.queryString.category === "all") {
+        if (this.queryString.sortPrice === "asc") {
+          this.query.sort("sellingPrice");
+        } else if (this.queryString.sortPrice === "desc") {
+          this.query.sort("-sellingPrice");
+        } else return this;
+      } else if (
+        this.queryString.category &&
+        this.queryString.category !== "all"
+      ) {
+        if (this.queryString.sortPrice === "asc")
+          this.query
+            .find({ category: this.queryString.category })
+            .sort("sellingPrice");
+        else if (this.queryString.sortPrice === "desc")
+          this.query
+            .find({ category: this.queryString.category })
+            .sort("-sellingPrice");
+        else return this;
+      }
+    }
+    return this;
+  }
+  filterByInput() {
+    if (this.queryString.filter) {
+      this.query.find({
+        name: { $regex: this.queryString.filter.trim(), $options: "i" },
+      });
     }
     return this;
   }

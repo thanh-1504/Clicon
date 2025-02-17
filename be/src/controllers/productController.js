@@ -46,7 +46,11 @@ exports.getDetailProduct = catchAsync(async (req, res) => {
 });
 
 exports.getProductByCategory = catchAsync(async (req, res) => {
-  const products = await Product.find({ category: req.params.typeProduct });
+  const categoryCondition =
+    req.params.typeProduct !== "all"
+      ? { category: req.params.typeProduct }
+      : { category: { $ne: "" } };
+  const products = await Product.find(categoryCondition);
   res.status(200).json({
     status: "success",
     result: products.length,
@@ -60,7 +64,8 @@ exports.filterProduct = catchAsync(async (req, res) => {
     .filterByPriceRange()
     .filterByPrice()
     .pagination()
-    .sortByPrice();
+    .sortByPrice()
+    .filterByInput();
   const products = await feature.query;
   res.status(200).json({
     status: "success",
@@ -82,7 +87,7 @@ exports.editProduct = catchAsync(async (req, res) => {
     listImage,
   });
   res.status(200).json({
-    status: "success", 
+    status: "success",
     data: editedProduct,
   });
 });

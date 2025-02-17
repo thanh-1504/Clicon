@@ -3,13 +3,17 @@ import { AiOutlineDelete } from "react-icons/ai";
 import { TbShoppingBagEdit } from "react-icons/tb";
 import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
-import { handleDeleteCurrentProduct, handleGetAllProduct } from "../redux/request";
+import {
+  handleDeleteCurrentProduct,
+  handleGetAllProduct,
+} from "../redux/request";
 import {
   handleSetAllProduct,
   handleShowManageProduct,
 } from "../redux/slices/manageSlice";
 import ManageProductModal from "./ManageProductModal";
 function ManageProducts() {
+  window.scrollTo(0, 0);
   const dispatch = useDispatch();
   const [productIdEdit, setProductIdEdit] = useState("");
   const [typeManage, setTypeManage] = useState("add product");
@@ -23,10 +27,9 @@ function ManageProducts() {
   const handleDeleteProduct = (idProduct) => {
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
-        confirmButton: "btn btn-success",
-        cancelButton: "btn btn-danger",
+        confirmButton: "bg-green-400",
       },
-      buttonsStyling: false,
+      buttonsStyling: true,
     });
     swalWithBootstrapButtons
       .fire({
@@ -99,7 +102,7 @@ function ManageProducts() {
                   <td>
                     <div className="flex items-center justify-center gap-x-4">
                       <TbShoppingBagEdit
-                        className="w-5 h-5 cursor-pointer"
+                        className="w-5 h-5 cursor-pointer hover:bg-gray-400 hover:rounded-full hover:fill-white"
                         onClick={() => {
                           setTypeManage("edit product");
                           setProductIdEdit(product?._id);
@@ -107,11 +110,10 @@ function ManageProducts() {
                         }}
                       />
                       <AiOutlineDelete
-                        className="w-5 h-5 cursor-pointer"
+                        className="w-5 h-5 cursor-pointer hover:rounded-full hover:fill-red-500 hover:shadow-md"
                         onClick={() => handleDeleteProduct(product?._id)}
                       />
                     </div>
-                    
                   </td>
                 </tr>
               );

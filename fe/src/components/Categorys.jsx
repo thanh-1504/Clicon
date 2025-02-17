@@ -3,10 +3,12 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 function Categorys() {
+  const screenWidth = window.innerWidth;
   const settings = {
     infinite: true,
     slidesToShow: 2,
     slidesToScroll: 2,
+    autoplay: screenWidth <= 500 && true,
     arrows: false,
   };
   return (
@@ -82,12 +84,12 @@ function Categorys() {
           <p className="text-sm font-medium text-center">TV & Homes</p>
         </Link>
       </div>
-      <div className="lg:hidden">
+      <div className="lg:hidden px-2">
         {
-          <Slider {...settings}> 
+          <Slider {...settings} className="custom__slider-mainPage">
             <Link
               to={"/category/computer,laptop"}
-              className="border sm:!flex sm:!flex-col sm:!items-center sm:!justify-center  border-slate-300 px-2 cursor-pointer lg:min-h-[160px] lg:w-full sm:!w-[160px] sm:h-[200px]"
+              className="border !flex !flex-col !items-center !justify-center  border-slate-300  cursor-pointer min-h-[200px]"
             >
               <img
                 src="/images/imageCategoryLaptop.png"
@@ -98,7 +100,7 @@ function Categorys() {
             </Link>
             <Link
               to={"/category/phone"}
-              className="border sm:!flex sm:!flex-col sm:!items-center sm:!justify-center lg:block border-slate-300 px-2 cursor-pointer lg:min-h-[160px] lg:w-full sm:!w-[160px] sm:h-[200px]"
+              className="border !flex !flex-col !items-center !justify-center  border-slate-300  cursor-pointer min-h-[200px]"
             >
               <img
                 src="/images/imageCategorySmartPhone.png"
@@ -109,7 +111,7 @@ function Categorys() {
             </Link>
             <Link
               to={"/category/headphone"}
-              className="border sm:!flex sm:!flex-col sm:!items-center sm:!justify-center lg:block border-slate-300 px-2 cursor-pointer lg:min-h-[160px] lg:w-full sm:!w-[160px] sm:h-[200px]"
+              className="border !flex !flex-col !items-center !justify-center  border-slate-300  cursor-pointer min-h-[200px]"
             >
               <img
                 src="/images/imageCategoryHeadPhone.png"
@@ -120,7 +122,7 @@ function Categorys() {
             </Link>
             <Link
               to={"/category/accessories"}
-              className="border sm:!flex sm:!flex-col sm:!items-center sm:!justify-center lg:block border-slate-300 px-2 cursor-pointer lg:min-h-[160px] lg:w-full sm:!w-[160px] sm:h-[200px]"
+              className="border !flex !flex-col !items-center !justify-center  border-slate-300  cursor-pointer min-h-[200px]"
             >
               <img
                 src="/images/imageCategoryKeyBoard.png"
@@ -131,7 +133,7 @@ function Categorys() {
             </Link>
             <Link
               to={"/category/camera"}
-              className="border sm:!flex sm:!flex-col sm:!items-center sm:!justify-center lg:block border-slate-300 px-2 cursor-pointer lg:min-h-[160px] lg:w-full sm:!w-[160px] sm:h-[200px]"
+              className="border !flex !flex-col !items-center !justify-center  border-slate-300  cursor-pointer min-h-[200px]"
             >
               <img
                 src="/images/imageCategoryCamera.png"
@@ -142,7 +144,7 @@ function Categorys() {
             </Link>
             <Link
               to={"/category/tv"}
-              className="border sm:!flex sm:!flex-col sm:!items-center sm:!justify-center lg:block border-slate-300 px-2 cursor-pointer lg:min-h-[160px] lg:w-full sm:!w-[160px] sm:h-[200px]"
+              className="border !flex !flex-col !items-center !justify-center  border-slate-300  cursor-pointer min-h-[200px]"
             >
               <img
                 src="/images/imageCategoryTV.png"

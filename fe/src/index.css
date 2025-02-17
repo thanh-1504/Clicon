@@ -168,8 +168,24 @@ th {
   display: flex;
   gap: 0 8px;
 }
+
 .custom__slider-productDetail .slick-list {
   max-width: 400px;
+}
+
+.custom__slider-mainPage .slick-list {
+  display: flex;
+  justify-content: center;
+  gap: 0 16px;
+}
+
+.custom__slider-mainPage .slick-track {
+  display: flex;
+  gap: 0 16.5px;
+}
+
+.custom__slider-mainPage .slick-track .slick-slide {
+  width: 50%;
 }
 
 .input__color:checked + .label__color {
@@ -180,4 +196,8 @@ th {
   -moz-appearance: none;
   -webkit-appearance: none;
   appearance: none;
+}
+
+.btn .btn-success {
+  background-color: green !important;
 }

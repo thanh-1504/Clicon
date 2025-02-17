@@ -278,27 +278,6 @@ export const handleGetProductByCategory = createAsyncThunk(
   }
 );
 
-export const handleGetFilterProduct = createAsyncThunk(
-  "product/filter",
-  async ({ queryValue, page, categoryProduct }) => {
-    try {
-      const response = await axios({
-        url: `${api.getFilterProduct.url}?category=${
-          queryValue?.category || categoryProduct
-        }&price=${queryValue?.price || null}&priceRange=${
-          queryValue?.priceRange
-        }&page=${page}`,
-        method: api.getFilterProduct.method,
-        withCredentials: true,
-      });
-      const dataResponse = await response.data;
-      return dataResponse;
-    } catch (err) {
-      console.log(err);
-      return err;
-    }
-  }
-);
 export const handleGetFilterProduct2 = createAsyncThunk(
   "product/filter",
   async (query) => {
@@ -355,8 +334,8 @@ export const handleEditProduct = createAsyncThunk(
   }
 );
 
-export const handleAddProductToCard = createAsyncThunk(
-  "order/add",
+export const handleAddProductToCart = createAsyncThunk(
+  "cart/add",
   async (data) => {
     try {
       const response = await axios({
@@ -377,13 +356,13 @@ export const handleAddProductToCard = createAsyncThunk(
   }
 );
 
-export const handleGetAllOrder = createAsyncThunk(
-  "order/getAllOrder",
+export const handleGetAllProductInCart = createAsyncThunk(
+  "cart/getAllProductInCart",
   async () => {
     try {
       const response = await axios({
-        url: api.getAllOrder.url,
-        method: api.getAllOrder.method,
+        url: api.getAllProductInCart.url,
+        method: api.getAllProductInCart.method,
         withCredentials: true,
       });
       const dataResponse = await response.data;
@@ -395,14 +374,13 @@ export const handleGetAllOrder = createAsyncThunk(
   }
 );
 
-export const handleUpdateOrder = createAsyncThunk(
+export const handleUpdateProductIncart = createAsyncThunk(
   "order/updateOrder",
   async ({ id, quantity }) => {
-    console.log(id, quantity);
     try {
       const response = await axios({
-        url: `${api.updateOrder.url}/${id}`,
-        method: api.updateOrder.method,
+        url: `${api.updateProductInCart.url}/${id}`,
+        method: api.updateProductInCart.method,
         withCredentials: true,
         headers: {
           "Content-Type": "application/json",
@@ -418,13 +396,13 @@ export const handleUpdateOrder = createAsyncThunk(
   }
 );
 
-export const handleDeleteOrder = createAsyncThunk(
+export const handleDeleteProductInCart = createAsyncThunk(
   "order/deleteOrder",
   async (id) => {
     try {
       const response = await axios({
-        url: `${api.deleteOrder.url}/${id}`,
-        method: api.deleteOrder.method,
+        url: `${api.deleteProductInCart.url}/${id}`,
+        method: api.deleteProductInCart.method,
         withCredentials: true,
       });
       const dataResponse = await response.data;
@@ -436,13 +414,13 @@ export const handleDeleteOrder = createAsyncThunk(
   }
 );
 
-export const handleDeleteAllOrder = createAsyncThunk(
-  "order/deleteOrder",
+export const handleDeleteAllProductInCart = createAsyncThunk(
+  "cart/deleteAllProductInCart",
   async () => {
     try {
       const response = await axios({
-        url: api.deleteAllOrder.url,
-        method: api.deleteOrder.method,
+        url: api.deleteAllProductInCart.url,
+        method: api.deleteAllProductInCart.method,
         withCredentials: true,
       });
       const dataResponse = await response.data;
@@ -457,10 +435,33 @@ export const handleDeleteAllOrder = createAsyncThunk(
 export const handleCheckout = createAsyncThunk(
   "order/checkout",
   async (data) => {
+    console.log(data);
     try {
       const response = await axios({
         url: api.checkOut.url,
         method: api.checkOut.method,
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data: JSON.stringify(data),
+      });
+      const dataResponse = await response.data;
+      return dataResponse;
+    } catch (err) {
+      console.log(err);
+      return err;
+    }
+  }
+);
+
+export const handleCreateOrder = createAsyncThunk(
+  "order/create",
+  async (data) => {
+    try {
+      const response = await axios({
+        url: api.createOrder.url,
+        method: api.createOrder.method,
         withCredentials: true,
         headers: {
           "Content-Type": "application/json",

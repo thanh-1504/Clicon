@@ -1,0 +1,10 @@
+const express = require("express");
+const authController = require("../controllers/authController");
+const reviewController = require("../controllers/reviewController");
+const router = express.Router();
+router.use(authController.protect);
+router.get("/", reviewController.getAllReview);
+router.post("/create-review", reviewController.createReview);
+router.patch("/update-review/:id", reviewController.updateReview);
+router.post("/delete-review/:id", reviewController.deleteReview);
+module.exports = router;

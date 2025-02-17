@@ -61,7 +61,7 @@ exports.getUser = catchAsync(async (req, res) => {
 });
 
 exports.getAllUsers = catchAsync(async (req, res) => {
-  const allUsers = await User.find();
+  const allUsers = await User.find({ role: { $ne: "ADMIN" } });
   res.status(200).json({
     status: "success",
     result: allUsers.length,

@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import accountSlice from "./slices/accountSlice";
 import cartSlice from "./slices/cartSlice";
 import manageSlice from "./slices/manageSlice";
+import orderSlice from "./slices/orderSlice";
 import productDetailSlice from "./slices/productDetailSlice";
 import shopPageSlice from "./slices/shopPageSlice";
 import signInSlice from "./slices/signInSlice";
@@ -15,6 +16,7 @@ export const store = configureStore({
     manage: manageSlice,
     shopPage: shopPageSlice,
     cart: cartSlice,
+    order: orderSlice,
     productDetail: productDetailSlice,
   },
 });
