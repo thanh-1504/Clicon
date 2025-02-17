@@ -12,7 +12,7 @@ app.use(cookieParser());
 app.use(express.json({ limit: "1mb" }));
 app.use(
   cors({
-    origin: "https://lucent-sprinkles-cfc10b.netlify.app/",
+    origin: "https://cliconapp.netlify.app",
     credentials: true,
   })
 );
