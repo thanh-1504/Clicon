@@ -28,7 +28,8 @@ const signToken = (idUser) => {
 const logInAndSendUserWithToken = (res, user, statusCode) => {
   const token = signToken(user._id);
   const cookieOption = {
-    secure: process.env.NODE_ENV === "production",
+    // secure: process.env.NODE_ENV === "production",
+    secure:true,
     httpOnly: true,
     expires: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000),
   };
