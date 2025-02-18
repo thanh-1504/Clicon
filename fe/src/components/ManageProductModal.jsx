@@ -19,7 +19,7 @@ import {
   handleSetAllProduct,
   handleShowManageProduct,
 } from "../redux/slices/manageSlice";
-import ProgressBar from "./progressBar";
+import ProgressBar from "./ProgressBar";
 const schema = yup.object({
   productName: yup.string().required("Product name is required!"),
   description: yup.string().default(""),
