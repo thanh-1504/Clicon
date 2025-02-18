@@ -13,7 +13,7 @@ app.use(cookieParser());
 app.use(express.json({ limit: "1mb" }));
 app.use(
   cors({
-    origin: "https://cliconapp.netlify.app",
+    origin: "https://clicon-abfr.onrender.com",
     credentials: true,
   })
 );
