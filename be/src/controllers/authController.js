@@ -30,7 +30,6 @@ const logInAndSendUserWithToken = (res, user, statusCode) => {
   const cookieOption = {
     // secure: process.env.NODE_ENV === "production",
     secure:true,
-    httpOnly: true,
     sameSite: "none",
     domain: ".onrender.com",
     expires: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000),
