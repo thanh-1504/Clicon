@@ -32,7 +32,7 @@ const logInAndSendUserWithToken = (res, user, statusCode) => {
     secure:true,
     httpOnly: true,
     sameSite: "none",
-    domain: "https://clicon-5ti2.onrender.com",
+    domain: "onrender.com",
     expires: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000),
   };
   res.cookie("jwt", token, cookieOption);
