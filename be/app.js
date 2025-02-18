@@ -8,6 +8,7 @@ const productRouter = require("./src/routes/productRouter");
 const paymentStripeRouter = require("./src/routes/paymentStripeRouter");
 const { globalError } = require("./src/controllers/globalErrorController");
 const app = express();
+app.set("trust proxy", 1);
 app.use(cookieParser());
 app.use(express.json({ limit: "1mb" }));
 app.use(
