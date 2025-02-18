@@ -37,11 +37,8 @@ exports.paymentWithStripe = catchAsync(async (req, res) => {
   const session = await stripe.checkout.sessions.create({
     line_items: stripeCheckoutData,
     mode: "payment",
-    // success_url: `${req.protocol}://${req.get(
-    //   "host"
-    // )}/checkout-success?session_id={CHECKOUT_SESSION_ID}`,
-    success_url: `http://localhost:5173/checkout-success?session_id={CHECKOUT_SESSION_ID}`,
-    cancel_url: "http://localhost:5173/cart",
+    success_url: `${req.protocol}://${req.get("host")}/checkout-success`,
+    cancel_url: `${req.protocol}://${req.get("host")}/cart`,
   });
 
   res.status(200).json({
