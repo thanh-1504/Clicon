@@ -37,8 +37,8 @@ exports.paymentWithStripe = catchAsync(async (req, res) => {
   const session = await stripe.checkout.sessions.create({
     line_items: stripeCheckoutData,
     mode: "payment",
-    success_url: "https://clicon-abfr.onrender.com/checkout-success",
-    cancel_url: "https://clicon-abfr.onrender.com/cart",
+    success_url: `${req.protocol}://clicon-abfr.onrender.com/checkout-success`,
+    cancel_url: `${req.protocol}://clicon-abfr.onrender.com/cart`,
   });
 
   res.status(200).json({
