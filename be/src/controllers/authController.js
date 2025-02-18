@@ -31,8 +31,7 @@ const logInAndSendUserWithToken = (res, user, statusCode) => {
     // secure: process.env.NODE_ENV === "production",
     secure:true,
     httpOnly: true,
-      sameSite: "none",
-      domain: "https://cliconapp.netlify.app",
+    sameSite: "none",
     expires: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000),
   };
   res.cookie("jwt", token, cookieOption);
