@@ -8,7 +8,7 @@ import { GoPlus } from "react-icons/go";
 import { IoMdStar } from "react-icons/io";
 import { PiHandshakeLight, PiMedal, PiTruck } from "react-icons/pi";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import Slider from "react-slick";
 import { toast, ToastContainer } from "react-toastify";
 import "slick-carousel/slick/slick-theme.css";
@@ -42,11 +42,12 @@ function ProductDetailPage() {
   window.scrollTo(0, 0);
   const dispatch = useDispatch();
   const screenWidth = window.innerWidth;
+  const navigate = useNavigate();
   const { categoryProduct, id } = useParams();
   const [loading, setLoading] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
   const [dataRelated, setDataRelated] = useState([]);
-  const isAdmin = JSON.parse(localStorage.getItem("user"))?.role;
+  const userCurrent = JSON.parse(localStorage.getItem("user"));
   const { data, activeImageOnClick, srcActiveImage, quantityProduct } =
     useSelector((state) => state.productDetail);
   const settings = {
@@ -58,6 +59,10 @@ function ProductDetailPage() {
 
   const handleAddToCart = () => {
     if (isAdding) return;
+    if (!userCurrent.displayName) {
+      navigate("https://clicon-abfr.onrender.com/sign-in");
+      return;
+    }
     setIsAdding(true);
     dispatch(
       handleAddProductToCart({
@@ -297,7 +302,7 @@ function ProductDetailPage() {
               </select>
             </div>
           </div> */}
-          {isAdmin !== "ADMIN" && (
+          {userCurrent?.role !== "ADMIN" && (
             <div className="flex justify-between mt-8 items-start">
               <div className="border-2 border-slate-200 flex items-center justify-between min-w-[120px] rounded-sm p-2 select-none">
                 <FiMinus
