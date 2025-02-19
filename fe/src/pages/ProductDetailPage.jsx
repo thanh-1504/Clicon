@@ -59,7 +59,7 @@ function ProductDetailPage() {
 
   const handleAddToCart = () => {
     if (isAdding) return;
-    if (!userCurrent.displayName) {
+    if (!userCurrent?.displayName) {
       navigate("https://clicon-abfr.onrender.com/sign-in");
       return;
     }
@@ -336,6 +336,10 @@ function ProductDetailPage() {
                 className="text-orange-color font-medium text-sm border-orange-color border-2 outline-none py-2 px-2 rounded-sm sm:hidden lg:block"
                 onClick={() => {
                   dispatch(handleCheckout({ data })).then((dataPayment) => {
+                    if (!userCurrent?.displayName) {
+                      navigate("https://clicon-abfr.onrender.com/sign-in");
+                      return;
+                    }
                     window.location.href = dataPayment?.payload?.url;
                   });
                 }}
