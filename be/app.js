@@ -40,7 +40,7 @@ app.use(hpp());
 app.use("/api", limiter);
 app.use(
   cors({
-    origin: "https://clicon-5ti2.onrender.com",
+    origin: "https://clicon-abfr.onrender.com",
     credentials: true,
   })
 );
