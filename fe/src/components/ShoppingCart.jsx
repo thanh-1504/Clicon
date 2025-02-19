@@ -55,9 +55,9 @@ function ShoppingCart({ show, setShow }) {
       {data && data.length > 0 ? (
         data.map((item) => {
           return (
-              <div key={item._id} className="flex items-center gap-x-2">
+              <div key={item._id} className="flex items-center gap-x-2 border border-slate-300 rounded-sm hover:border-slate-400 transition-all">
               <Link to={`/product/${item.category}/${item.product._id}`}>
-                <div className="flex items-center gap-x-2 border border-slate-300 rounded-sm p-2 min-h-[74px]">
+                <div className="flex items-center gap-x-2  p-2 min-h-[74px]">
                   <div className="w-[65px] hover:cursor-pointer">
                     <img
                       src={item.product.listImage[0]}
