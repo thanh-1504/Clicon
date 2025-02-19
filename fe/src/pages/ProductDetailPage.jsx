@@ -58,45 +58,46 @@ function ProductDetailPage() {
   };
 
   const handleAddToCart = () => {
-    if (isAdding) return;
     if (!userCurrent?.displayName) {
       navigate("https://clicon-abfr.onrender.com/sign-in");
       return;
-    }
-    setIsAdding(true);
-    dispatch(
-      handleAddProductToCart({
-        product: id,
-        quantity: quantityProduct,
-      })
-    ).then((data) => {
-      if (
-        data.payload.response?.data.message ===
-        "You don't have permisson to perfom this action"
-      ) {
-        toast.info("Only users can purchase", {
-          position: "top-center",
-          autoClose: 1000,
-          pauseOnHover: false,
-          containerId: "toast-detailProduct",
-        });
+    } else {
+      if (isAdding) return;
+      setIsAdding(true);
+      dispatch(
+        handleAddProductToCart({
+          product: id,
+          quantity: quantityProduct,
+        })
+      ).then((data) => {
+        if (
+          data.payload.response?.data.message ===
+          "You don't have permisson to perfom this action"
+        ) {
+          toast.info("Only users can purchase", {
+            position: "top-center",
+            autoClose: 1000,
+            pauseOnHover: false,
+            containerId: "toast-detailProduct",
+          });
+          setTimeout(() => {
+            setIsAdding(false);
+          }, 1000);
+          return;
+        } else {
+          dispatch(handleGetAllProductInCart()).then((data) => {
+            const money = data?.payload.cart?.reduce((total, order) => {
+              return total + order.quantity * order.product.sellingPrice;
+            }, 0);
+            dispatch(handleSetTotalMoney(money));
+            dispatch(handleSetDataCart(data?.payload.cart));
+          });
+        }
         setTimeout(() => {
           setIsAdding(false);
         }, 1000);
-        return;
-      } else {
-        dispatch(handleGetAllProductInCart()).then((data) => {
-          const money = data?.payload.cart?.reduce((total, order) => {
-            return total + order.quantity * order.product.sellingPrice;
-          }, 0);
-          dispatch(handleSetTotalMoney(money));
-          dispatch(handleSetDataCart(data?.payload.cart));
-        });
-      }
-      setTimeout(() => {
-        setIsAdding(false);
-      }, 1000);
-    });
+      });
+    }
   };
   useEffect(() => {
     const fetchData = async () => {
