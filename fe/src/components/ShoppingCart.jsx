@@ -44,9 +44,7 @@ function ShoppingCart({ show, setShow }) {
     <div
       onMouseEnter={() => setShow(true)}
       onMouseLeave={() => setShow(false)}
-      className={`cart absolute right-0 top-11 bg-white shadow-lg rounded min-w-[300px] transition-all ${
-        !show && "opacity-0 invisible"
-      }`}
+      className={`cart absolute right-0 top-11 bg-white shadow-lg rounded min-w-[300px] transition-all `}
     >
       <h3 className="p-3 text-sm font-semibold">
         Shopping Cart ({data.length})
