@@ -55,32 +55,32 @@ function ShoppingCart({ show, setShow }) {
       {data && data.length > 0 ? (
         data.map((item) => {
           return (
-            <Link
-              to={`/product/${item.category}/${item.product._id}`}
-              key={item._id}
-              className="flex items-center gap-x-2 border border-slate-300 rounded-sm p-2 min-h-[74px]"
-            >
-              <div className="w-[65px] hover:cursor-pointer">
-                <img
-                  src={item.product.listImage[0]}
-                  alt="image related product"
-                  className="min-w-[65px] max-h-[50px] object-contain"
-                />
-              </div>
-              <div className="w-full hover:cursor-pointer">
-                <p className="text-xs line-clamp-2 ">{item.product.name}</p>
-                <span className="text-sm text-slate-500 mr-1">
-                  {item.quantity} x
-                </span>
-                <span className="text-sm text-blue-500 font-medium">
-                  ${item.product.sellingPrice}
-                </span>
-              </div>
+              <div key={item._id}>
+              <Link to={`/product/${item.category}/${item.product._id}`}>
+                <div className="flex items-center gap-x-2 border border-slate-300 rounded-sm p-2 min-h-[74px]">
+                  <div className="w-[65px] hover:cursor-pointer">
+                    <img
+                      src={item.product.listImage[0]}
+                      alt="image related product"
+                      className="min-w-[65px] max-h-[50px] object-contain"
+                    />
+                  </div>
+                  <div className="w-full hover:cursor-pointer">
+                    <p className="text-xs line-clamp-2 ">{item.product.name}</p>
+                    <span className="text-sm text-slate-500 mr-1">
+                      {item.quantity} x
+                    </span>
+                    <span className="text-sm text-blue-500 font-medium">
+                      ${item.product.sellingPrice}
+                    </span>
+                  </div>
+                </div>
+              </Link>
               <IoIosCloseCircleOutline
                 className="w-7 h-7 hover:fill-red-600 hover:cursor-pointer"
                 onClick={() => handleDeleteCurrentOrder(item._id)}
               />
-            </Link>
+            </div>
           );
         })
       ) : (
