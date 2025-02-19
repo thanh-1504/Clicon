@@ -77,7 +77,7 @@ function ShoppingCart({ show, setShow }) {
                 </div>
               </Link>
               <IoIosCloseCircleOutline
-                className="w-7 h-7 hover:fill-red-600 hover:cursor-pointer"
+                className="w-5 h-5 hover:fill-red-600 hover:cursor-pointer"
                 onClick={() => handleDeleteCurrentOrder(item._id)}
               />
             </div>
