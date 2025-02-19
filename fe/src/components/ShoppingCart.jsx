@@ -44,7 +44,9 @@ function ShoppingCart({ show, setShow }) {
     <div
       onMouseEnter={() => setShow(true)}
       onMouseLeave={() => setShow(false)}
-      className={`cart absolute right-0 top-11 bg-white shadow-lg rounded min-w-[300px] transition-all `}
+      className={`cart absolute right-0 top-11 bg-white shadow-lg rounded min-w-[300px] transition-all ${
+        !show && "opacity-0 invisible"
+      }`}
     >
       <h3 className="p-3 text-sm font-semibold">
         Shopping Cart ({data.length})
@@ -53,9 +55,12 @@ function ShoppingCart({ show, setShow }) {
       {data && data.length > 0 ? (
         data.map((item) => {
           return (
-              <div key={item._id} className="flex items-center gap-x-2 border border-slate-300 rounded-sm hover:border-slate-400 transition-all">
-              <Link to={`/product/${item.category}/${item.product._id}`}>
-                <div className="flex items-center gap-x-2  p-2 min-h-[74px]">
+            <div
+              key={item._id}
+              className="flex items-center gap-x-1 border border-slate-300 rounded-sm hover:border-slate-400 transition-all"
+            >
+              <Link to={`/product/${item.product._id}`}>
+                <div className="flex items-center gap-x-2 p-2 min-h-[74px]">
                   <div className="w-[65px] hover:cursor-pointer">
                     <img
                       src={item.product.listImage[0]}
@@ -64,7 +69,9 @@ function ShoppingCart({ show, setShow }) {
                     />
                   </div>
                   <div className="w-full hover:cursor-pointer">
-                    <p className="text-xs line-clamp-2 ">{item.product.name}</p>
+                    <p className="text-xs line-clamp-2 min-w-[175.5px] max-w-44">
+                      {item.product.name}
+                    </p>
                     <span className="text-sm text-slate-500 mr-1">
                       {item.quantity} x
                     </span>
