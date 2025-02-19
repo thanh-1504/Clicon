@@ -59,7 +59,7 @@ function ShoppingCart({ show, setShow }) {
               key={item._id}
               className="flex items-center gap-x-1 border border-slate-300 rounded-sm hover:border-slate-400 transition-all"
             >
-              <Link to={`/product/${item.product._id}`}>
+              <Link to={`/product/${item.product.category}/${item.product._id}`}>
                 <div className="flex items-center gap-x-2 p-2 min-h-[74px]">
                   <div className="w-[65px] hover:cursor-pointer">
                     <img
