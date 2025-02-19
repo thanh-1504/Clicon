@@ -11,7 +11,7 @@ export default {
         inputShadow: "rgba(0, 0, 0, 0.11) 0px 0px 0px 4px",
       },
       screens: {
-        sm: "400px",
+        sm: "350px",
         md:"768px",
         lg:"1024px",
         xl:"1280px",
