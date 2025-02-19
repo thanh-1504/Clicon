@@ -6,7 +6,7 @@ function RelatedProductItem({ data }) {
   return (
     <Link
       to={`/product/${data.category}/${data._id}`}
-      className="flex items-center gap-x-2 border border-slate-300 rounded-sm p-2 hover:cursor-pointer min-h-[74px] sm:flex-col sm:min-h-[240px] lg:min-h-0 sm:gap-y-3 lg:gap-y-0 lg:flex-row"
+       className="flex items-center gap-x-2 border border-slate-300 rounded-sm p-2 hover:cursor-pointer min-h-[74px] sm:flex-col sm:justify-center sm:py-7 sm:px-3 lg:min-h-0 sm:gap-y-3 lg:gap-y-0 lg:flex-row"
     >
       <div className="lg:w-[65px] sm:w-full">
         <img
