@@ -134,9 +134,9 @@ function ProductDetailPage() {
   }, [dispatch, id, categoryProduct]);
   if (!data) return;
   return (
-    <div className="pt-[120px] lg:px-[150px] ">
+    <div className="pt-[120px] lg:px-[150px] 2xl:px-[350px]">
       <div className="flex items-start sm:flex-col lg:flex-row">
-        <div className="w-2/4 sm:w-full">
+        <div className="w-2/4 sm:w-full 2xl:w-fit 2xl:mr-10">
           <div className="border border-slate-300 lg:rounded-md lg:max-w-[400px] mb-4">
             {loading ? (
               <img
@@ -304,7 +304,7 @@ function ProductDetailPage() {
             </div>
           </div> */}
           {userCurrent?.role !== "ADMIN" && (
-            <div className="flex justify-between mt-8 items-start">
+            <div className="flex justify-between mt-8 items-start 2xl:justify-normal 2xl:gap-x-5">
               <div className="border-2 border-slate-200 flex items-center justify-between min-w-[120px] rounded-sm p-2 select-none">
                 <FiMinus
                   className="cursor-pointer"
@@ -334,7 +334,7 @@ function ProductDetailPage() {
                 <BsCart2 fill="#fff" />
               </button>
               <button
-                className="text-orange-color font-medium text-sm border-orange-color border-2 outline-none py-2 px-2 rounded-sm sm:hidden lg:block"
+                className="text-orange-color font-medium text-sm border-orange-color border-2 outline-none py-2 px-2 rounded-sm sm:hidden lg:block 2xl:px-10"
                 onClick={() => {
                   dispatch(handleCheckout({ data })).then((dataPayment) => {
                     if (!userCurrent?.displayName) {
