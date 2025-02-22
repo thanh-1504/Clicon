@@ -22,7 +22,7 @@ function MainPage() {
     fetchProduct();
   }, [dispatch]);
   return (
-    <div className="lg:pt-[100px] lg:px-[160px] sm:px-0">
+    <div className="lg:pt-[100px] lg:px-[160px] sm:px-0 2xl:px-[350px]">
       <BannerMainPage />
       <CustomerBenefits />
       <Categorys />
