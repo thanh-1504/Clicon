@@ -6,7 +6,7 @@ function ProductItem({ data, loadingProduct }) {
   return (
     <Link
       to={`/product/${data?.category}/${data?._id}`}
-      className="border border-slate-300 lg:w-full max-h-[360px] px-2 py-4 hover:shadow-lg transition-all hover:cursor-pointer"
+      className="border border-slate-300 lg:w-full max-h-[360px] px-2 py-4 hover:shadow-lg transition-all hover:cursor-pointer 2xl:py-10"
     >
       <div className="lg:w-[120px] lg:h-[120px] mx-auto">
         {loadingProduct ? (
