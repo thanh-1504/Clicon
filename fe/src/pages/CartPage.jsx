@@ -90,7 +90,7 @@ function CartPage() {
         </div>
       ) : (
         <>
-          <div className="flex gap-x-5 pt-[120px] px-[100px]">
+          <div className="flex gap-x-5 pt-[120px] px-[100px] 2xl:px-[350px]">
             <div>
               <h2 className="font-medium border p-3">Shopping Cart</h2>
               <table className="border-[1.5px] rounded-sm border-slate-100 w-full text-sm">
