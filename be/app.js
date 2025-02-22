@@ -15,7 +15,7 @@ const { globalError } = require("./src/controllers/globalErrorController");
 const app = express();
 app.use(helmet());
 const limiter = rateLimit({
-  max: 100,
+  max: 200,
   windowMs: 60 * 60 * 1000,
   message: "Too many request from this ip, please try again in an hour!",
 });
