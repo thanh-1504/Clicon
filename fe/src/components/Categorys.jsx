@@ -16,69 +16,69 @@ function Categorys() {
       <h2 className="text-center text-xl font-medium mb-5">
         Shop with Categorys
       </h2>
-      <div className="items-start justify-evenly gap-x-4 sm:hidden lg:flex">
+      <div className="items-start justify-evenly gap-x-4 sm:hidden lg:flex 2xl:grid 2xl:grid-cols-6">
         <Link
           to={"/category/computer,laptop"}
-          className="border border-slate-300 px-2 cursor-pointer min-h-[160px]"
+          className="border border-slate-300 px-2 cursor-pointer min-h-[160px] 2xl:min-h-[220px] flex items-center flex-col justify-center"
         >
           <img
             src="/images/imageCategoryLaptop.png"
-            alt=""
+            alt="image-product"
             className="w-[100px] h-[120px] mx-auto object-contain"
           />
           <p className="text-sm font-medium">Computer & Laptop</p>
         </Link>
         <Link
           to={"/category/phone"}
-          className="border border-slate-300 px-2 cursor-pointer min-h-[160px] min-w-[143px]"
+          className="border border-slate-300 px-2 cursor-pointer min-h-[160px] min-w-[143px] 2xl:min-h-[220px] flex items-center flex-col justify-center"
         >
           <img
             src="/images/imageCategorySmartPhone.png"
-            alt=""
+            alt="image-product"
             className="w-[100px] h-[120px] mx-auto object-contain"
           />
           <p className="text-sm font-medium text-center">SmartPhone</p>
         </Link>
         <Link
           to={"/category/headphone"}
-          className="border border-slate-300 px-2 cursor-pointer min-h-[160px] min-w-[143px]"
+          className="border border-slate-300 px-2 cursor-pointer min-h-[160px] min-w-[143px] 2xl:min-h-[220px] flex items-center flex-col justify-center"
         >
           <img
             src="/images/imageCategoryHeadPhone.png"
-            alt=""
+            alt="image-product"
             className="w-[100px] h-[120px] mx-auto object-contain"
           />
           <p className="text-sm font-medium text-center">Headphones</p>
         </Link>
         <Link
           to={"/category/accessories"}
-          className="border border-slate-300 px-2 cursor-pointer min-h-[160px] min-w-[143px]"
+          className="border border-slate-300 px-2 cursor-pointer min-h-[160px] min-w-[143px] 2xl:min-h-[220px] flex items-center flex-col justify-center"
         >
           <img
             src="/images/imageCategoryKeyBoard.png"
-            alt=""
+            alt="image-product"
             className="w-[100px] h-[120px] mx-auto object-contain"
           />
           <p className="text-sm font-medium text-center">Accessories</p>
         </Link>
         <Link
           to={"/category/camera"}
-          className="border border-slate-300 px-2 cursor-pointer min-h-[160px] min-w-[143px]"
+          className="border border-slate-300 px-2 cursor-pointer min-h-[160px] min-w-[143px] 2xl:min-h-[220px] flex items-center flex-col justify-center"
         >
           <img
             src="/images/imageCategoryCamera.png"
-            alt=""
+            alt="image-product"
             className="w-[100px] h-[120px] mx-auto object-contain"
           />
           <p className="text-sm font-medium text-center">Camera & Photo</p>
         </Link>
         <Link
           to={"/category/tv"}
-          className="border border-slate-300 px-2 cursor-pointer min-h-[160px] min-w-[143px]"
+          className="border border-slate-300 px-2 cursor-pointer min-h-[160px] min-w-[143px] 2xl:min-h-[220px] flex items-center flex-col justify-center"
         >
           <img
             src="/images/imageCategoryTV.png"
-            alt=""
+            alt="image-product"
             className="w-[100px] h-[120px] mx-auto object-contain"
           />
           <p className="text-sm font-medium text-center">TV & Homes</p>
@@ -93,7 +93,7 @@ function Categorys() {
             >
               <img
                 src="/images/imageCategoryLaptop.png"
-                alt=""
+                alt="image-product"
                 className="w-[100px] h-[120px] mx-auto object-contain"
               />
               <p className="text-sm font-medium">Computer & Laptop</p>
@@ -104,7 +104,7 @@ function Categorys() {
             >
               <img
                 src="/images/imageCategorySmartPhone.png"
-                alt=""
+                alt="image-product"
                 className="w-[100px] h-[120px] mx-auto object-contain"
               />
               <p className="text-sm font-medium text-center">SmartPhone</p>
@@ -115,7 +115,7 @@ function Categorys() {
             >
               <img
                 src="/images/imageCategoryHeadPhone.png"
-                alt=""
+                alt="image-product"
                 className="w-[100px] h-[120px] mx-auto object-contain"
               />
               <p className="text-sm font-medium text-center">Headphones</p>
@@ -126,7 +126,7 @@ function Categorys() {
             >
               <img
                 src="/images/imageCategoryKeyBoard.png"
-                alt=""
+                alt="image-product"
                 className="w-[100px] h-[120px] mx-auto object-contain"
               />
               <p className="text-sm font-medium text-center">Accessories</p>
@@ -137,7 +137,7 @@ function Categorys() {
             >
               <img
                 src="/images/imageCategoryCamera.png"
-                alt=""
+                alt="image-product"
                 className="w-[100px] h-[120px] mx-auto object-contain"
               />
               <p className="text-sm font-medium text-center">Camera & Photo</p>
@@ -148,7 +148,7 @@ function Categorys() {
             >
               <img
                 src="/images/imageCategoryTV.png"
-                alt=""
+                alt="image-product"
                 className="w-[100px] h-[120px] mx-auto object-contain"
               />
               <p className="text-sm font-medium text-center">TV & Homes</p>
