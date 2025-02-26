@@ -373,7 +373,7 @@ function ShopPage() {
             <IoIosArrowDown className="absolute right-0 top-2/4 -translate-y-2/4 mr-2" />
           </div>
         </div>
-        <div className="grid lg:grid-cols-5 lg:gap-4 sm:grid-cols-2 sm:gap-y-5 sm:gap-x-4 sm:px-5 lg:px-0">
+        <div className="grid 2xl:grid-cols-6 lg:grid-cols-5 lg:gap-4 sm:grid-cols-2 sm:gap-y-5 sm:gap-x-4 sm:px-5 lg:px-0">
           {loading
             ? Array.from({ length: 20 }).map((_, index) => (
                 <ProductItem key={index} data={null} loadingProduct={loading} />
