@@ -103,7 +103,7 @@ function ShopPage() {
   }, [dispatch, categoryProduct]);
 
   return (
-    <div className="pt-[120px] flex items-start lg:justify-center px-2">
+    <div className="pt-[120px] flex items-start lg:justify-center px-2 2xl:px-40">
       <aside className="w-1/5 sm:hidden lg:block">
         <h2 className="uppercase font-medium text-sm mb-2">CATEGORY</h2>
         <form onSubmit={handleSubmit(handleFilterProduct)}>
@@ -373,7 +373,7 @@ function ShopPage() {
             <IoIosArrowDown className="absolute right-0 top-2/4 -translate-y-2/4 mr-2" />
           </div>
         </div>
-        <div className="grid 2xl:grid-cols-6 lg:grid-cols-5 lg:gap-4 sm:grid-cols-2 sm:gap-y-5 sm:gap-x-4 sm:px-5 lg:px-0">
+        <div className="grid  lg:grid-cols-5 lg:gap-4 sm:grid-cols-2 sm:gap-y-5 sm:gap-x-4 sm:px-5 lg:px-0">
           {loading
             ? Array.from({ length: 20 }).map((_, index) => (
                 <ProductItem key={index} data={null} loadingProduct={loading} />
