@@ -30,6 +30,7 @@ const logInAndSendUserWithToken = (res, user, statusCode) => {
   const cookieOption = {
     // secure: process.env.NODE_ENV === "production",
     httpOnly: true,
+    secure: false,
     expires: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000),
   };
   res.cookie("jwt", token, cookieOption);
