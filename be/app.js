@@ -40,8 +40,8 @@ app.use(hpp());
 // app.use("/api", limiter);
 app.use(
   cors({
-    // origin: "https://clicon-abfr.onrender.com",
-    origin: "https://cliconapp.netlify.app",
+    // origin: ,
+    origin: ["https://cliconapp.netlify.app", "https://clicon-abfr.onrender.com"],
     credentials: true,
   })
 );
