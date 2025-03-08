@@ -6,6 +6,7 @@ const signUpSlice = createSlice({
     showPassword: false,
     showPasswordConfirm: false,
     isSignUpWithGoogle: false,
+    loading: false
   },
   reducers: {
     handleShowPassWord: (state, action) => {
@@ -17,11 +18,15 @@ const signUpSlice = createSlice({
     setIsSignUpWithGoogle: (state, action) => {
       state.isSignUpWithGoogle = action.payload;
     },
+    setLoading: (state, action) => {
+      state.loading = action.payload;
+    }
   },
 });
 export const {
   handleShowPassWord,
   handleShowPasswordConfirm,
   setIsSignUpWithGoogle,
+  setLoading
 } = signUpSlice.actions;
 export default signUpSlice.reducer;

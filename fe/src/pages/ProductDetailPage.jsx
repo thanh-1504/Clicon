@@ -42,7 +42,6 @@ function ProductDetailPage() {
   window.scrollTo(0, 0);
   const dispatch = useDispatch();
   const screenWidth = window.innerWidth;
-  const navigate = useNavigate();
   const { categoryProduct, id } = useParams();
   const [loading, setLoading] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
@@ -153,7 +152,7 @@ function ProductDetailPage() {
                     : ""
                 }
                 alt="image product"
-                className="w-full min-h-[400px] object-contain"
+                className="w-full min-h-[400px] 2xl:min-w-[400px] object-contain"
               />
             )}
           </div>
@@ -194,7 +193,9 @@ function ProductDetailPage() {
         <div className="w-2/4 sm:w-full sm:px-3">
           <div className="flex items-center">
             <IoMdStar className="text-yellow-400 inline mr-2" />
-            <span className="text-sm font-medium">4.7 Star Rating</span>
+            <span className="text-sm font-medium">
+            {loading ? "" : "4.7 Star Rating"}
+              </span>
           </div>
           <h2
             className={`my-2 ${

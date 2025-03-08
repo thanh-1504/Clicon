@@ -15,6 +15,7 @@ import {
   handleShowPassWord,
   handleShowPasswordConfirm,
   setIsSignUpWithGoogle,
+  setLoading,
 } from "../redux/slices/signUpSlice";
 const schema = yup.object({
   name: yup.string().required("Please enter your name!"),
@@ -39,7 +40,7 @@ const schema = yup.object({
 function SignUpPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { showPassword, showPasswordConfirm, isSignUpWithGoogle } = useSelector(
+  const { showPassword, showPasswordConfirm, isSignUpWithGoogle, loading } = useSelector(
     (state) => state.signUp
   );
   const {
@@ -51,18 +52,21 @@ function SignUpPage() {
 
   const handleSubmitFormSignUp = async (data) => {
     if (isValid) {
+      dispatch(setLoading(true));
       const response = await dispatch(handleSignUp(data));
       if (
         response.payload?.response?.data.message.startsWith(
           "E11000 duplicate key"
         )
       ) {
+        dispatch(setLoading(false));
         toast.error("Email already exists", {
           pauseOnHover: false,
           autoClose: 1500,
         });
         return;
       } else {
+        dispatch(setLoading(false));
         reset();
         toast.success("Registered successfully", {
           pauseOnHover: false,
@@ -80,7 +84,7 @@ function SignUpPage() {
     };
   }, [dispatch]);
   return (
-    <div className="flex justify-center py-10">
+    <div className="flex justify-center py-10 h-screen items-center">
       <div className="w-full max-w-[400px] shadow-lg rounded bg-white">
         <div>
           <NavLink
@@ -217,15 +221,14 @@ function SignUpPage() {
             </label>
           </div>
           <button
-            disabled={isSubmitting || isSignUpWithGoogle}
-            className={`${
-              isSubmitting
-                ? "bg-[#fa8232] opacity-85 transition-all"
-                : "bg-[#fa8232]"
-            } text-white font-semibold uppercase flex items-center justify-center p-2 gap-x-2`}
+            disabled={isSubmitting}
+            className={`text-white font-semibold uppercase flex items-center justify-center p-2 min-h-10 bg-[#fa8232]`}
           >
-            SIGN UP
-            <FaArrowRight className="text-white" />
+            {loading ? <div className="w-5 h-5 rounded-full border-2 animate-spin border-b-transparent pointer-events-none"></div> : <div className="flex items-center gap-x-1">
+              SIGN UP
+              <FaArrowRight />
+            </div>}
+
           </button>
           <div className="relative flex my-4 justify-center items-center">
             <div className="flex-grow border-t border-slate-300"></div>
