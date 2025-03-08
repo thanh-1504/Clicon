@@ -40,8 +40,7 @@ app.use(hpp());
 // app.use("/api", limiter);
 app.use(
   cors({
-    // origin: "https://clicon-abfr.onrender.com",
-    origin: "http://localhost:5173",
+    origin: "https://clicon-abfr.onrender.com",
     credentials: true,
   })
 );
