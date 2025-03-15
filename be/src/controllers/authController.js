@@ -67,7 +67,7 @@ exports.signUp = catchAsync(async (req, res) => {
     res.cookie("jwt", jwtByGoogle, {
       httpOnly: true,
       sameSite: "none",
-      secure: process.env.NODE_ENV === "production",
+      secure: true,
       expires: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000),
     });
     if (!user) {
@@ -133,7 +133,7 @@ exports.signIn = catchAsync(async (req, res) => {
     res.cookie("jwt", jwtByGoogle, {
       httpOnly: true,
       sameSite: "none",
-      secure: process.env.NODE_ENV === "production",
+      secure: true,
       expires: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000),
     });
     if (!user) {
