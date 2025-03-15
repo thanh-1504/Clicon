@@ -186,6 +186,7 @@ exports.protect = catchAsync(async (req, res, next) => {
     token = req.headers.authorization.split(" ")[1];
   else if (req.cookies.jwt) token = req.cookies.jwt;
   if (!token) throw new AppError(400, "Please log in to continue !");
+  console.log(token);
   try {
     // Kiểm tra token Firebase
     const firebaseDecoded = await validateFirebaseToken(token);
