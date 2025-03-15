@@ -186,38 +186,77 @@ exports.signOut = catchAsync(async (req, res) => {
   });
 });
 
+// exports.protect = catchAsync(async (req, res, next) => {
+//   let token = "";
+//   if (
+//     req.headers.authorization &&
+//     req.headers.authorization.startsWith("Bearer")
+//   )
+//     token = req.headers.authorization.split(" ")[1];
+//   else if (req.cookies.jwt) token = req.cookies.jwt;
+//   if (!token) throw new AppError(400, "Please log in to continue !");
+//   try {
+//     // Kiểm tra token Firebase
+//     const firebaseDecoded = await validateFirebaseToken(token);
+//     const currentUser = await User.findOne({ email: firebaseDecoded.email });
+//     if (!currentUser)
+//       throw new AppError(
+//         404,
+//         "The token belonging to this user is no longer available!"
+//       );
+//     req.user = currentUser;
+//     next();
+//   } catch (firebaseError) {
+//     const decoded = jwt.verify(token, process.env.SECRET_KEY);
+//     const currentUser = await User.findById(decoded.idUser);
+//     if (!currentUser)
+//       throw new AppError(
+//         404,
+//         "The token belonging to this user is no longer available!"
+//       );
+//     req.user = currentUser;
+//     next();
+//   }
+// });
+
 exports.protect = catchAsync(async (req, res, next) => {
   let token = "";
   if (
     req.headers.authorization &&
     req.headers.authorization.startsWith("Bearer")
-  )
+  ) {
     token = req.headers.authorization.split(" ")[1];
-  else if (req.cookies.jwt) token = req.cookies.jwt;
-  if (!token) throw new AppError(400, "Please log in to continue !");
+  } else if (req.cookies.jwt) {
+    token = req.cookies.jwt;
+  }
+
+  if (!token) throw new AppError(400, "Please log in to continue!");
+
   try {
-    // Kiểm tra token Firebase
+    // Kiểm tra token Firebase trước
     const firebaseDecoded = await validateFirebaseToken(token);
     const currentUser = await User.findOne({ email: firebaseDecoded.email });
     if (!currentUser)
-      throw new AppError(
-        404,
-        "The token belonging to this user is no longer available!"
-      );
+      throw new AppError(404, "User not found for this Firebase token!");
     req.user = currentUser;
-    next();
+    return next();
   } catch (firebaseError) {
-    const decoded = jwt.verify(token, process.env.SECRET_KEY);
-    const currentUser = await User.findById(decoded.idUser);
-    if (!currentUser)
-      throw new AppError(
-        404,
-        "The token belonging to this user is no longer available!"
-      );
-    req.user = currentUser;
-    next();
+    try {
+      // Nếu không phải token Firebase, kiểm tra bằng JWT của server
+      const decoded = jwt.verify(token, process.env.SECRET_KEY, {
+        algorithms: ["HS256"], // Chắc chắn rằng thuật toán đúng
+      });
+      const currentUser = await User.findById(decoded.idUser);
+      if (!currentUser)
+        throw new AppError(404, "User not found for this JWT token!");
+      req.user = currentUser;
+      return next();
+    } catch (jwtError) {
+      throw new AppError(401, "Invalid token");
+    }
   }
 });
+
 
 exports.authority = (...roles) => {
   return (req, res, next) => {
