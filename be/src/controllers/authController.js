@@ -65,8 +65,9 @@ exports.signUp = catchAsync(async (req, res) => {
   );
   if (signInWithGoogle) {
     res.cookie("jwt", jwtByGoogle, {
-      secure: process.env.NODE_ENV === "production",
       httpOnly: true,
+      sameSite: "none",
+      secure: process.env.NODE_ENV === "production",
       expires: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000),
     });
     if (!user) {
@@ -130,8 +131,9 @@ exports.signIn = catchAsync(async (req, res) => {
   );
   if (signInWithGoogle) {
     res.cookie("jwt", jwtByGoogle, {
-      secure: process.env.NODE_ENV === "production",
       httpOnly: true,
+      sameSite: "none",
+      secure: process.env.NODE_ENV === "production",
       expires: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000),
     });
     if (!user) {
