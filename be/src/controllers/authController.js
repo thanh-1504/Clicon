@@ -186,10 +186,15 @@ exports.protect = catchAsync(async (req, res, next) => {
     token = req.headers.authorization.split(" ")[1];
   else if (req.cookies.jwt) token = req.cookies.jwt;
   if (!token) throw new AppError(400, "Please log in to continue !");
-  console.log(token);
   try {
     // Kiểm tra token Firebase
     const firebaseDecoded = await validateFirebaseToken(token);
+    const cookieOption = {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+      expires: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000),
+    };
     const currentUser = await User.findOne({ email: firebaseDecoded.email });
     if (!currentUser)
       throw new AppError(
@@ -197,6 +202,7 @@ exports.protect = catchAsync(async (req, res, next) => {
         "The token belonging to this user is no longer available!"
       );
     req.user = currentUser;
+    res.cookie("jwt", token, cookieOption);
     next();
   } catch (firebaseError) {
     const decoded = jwt.verify(token, process.env.SECRET_KEY);
