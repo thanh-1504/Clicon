@@ -48,6 +48,7 @@ function SignInPage() {
           navigate("/");
         }, 2000);
       } else {
+        dispatch(setLoading(false))
         toast.error("Email or password is incorrect", {
           autoClose: 1500,
           pauseOnHover: false,
