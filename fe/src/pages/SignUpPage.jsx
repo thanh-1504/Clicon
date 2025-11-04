@@ -40,9 +40,8 @@ const schema = yup.object({
 function SignUpPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { showPassword, showPasswordConfirm, isSignUpWithGoogle, loading } = useSelector(
-    (state) => state.signUp
-  );
+  const { showPassword, showPasswordConfirm, isSignUpWithGoogle, loading } =
+    useSelector((state) => state.signUp);
   const {
     register,
     handleSubmit,
@@ -224,11 +223,14 @@ function SignUpPage() {
             disabled={isSubmitting}
             className={`text-white font-semibold uppercase flex items-center justify-center p-2 min-h-10 bg-[#fa8232]`}
           >
-            {loading ? <div className="w-5 h-5 rounded-full border-2 animate-spin border-b-transparent pointer-events-none"></div> : <div className="flex items-center gap-x-1">
-              SIGN UP
-              <FaArrowRight />
-            </div>}
-
+            {loading ? (
+              <div className="w-5 h-5 rounded-full border-2 animate-spin border-b-transparent pointer-events-none"></div>
+            ) : (
+              <div className="flex items-center gap-x-1">
+                SIGN UP
+                <FaArrowRight />
+              </div>
+            )}
           </button>
           <div className="relative flex my-4 justify-center items-center">
             <div className="flex-grow border-t border-slate-300"></div>

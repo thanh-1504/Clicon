@@ -8,7 +8,7 @@ import { GoPlus } from "react-icons/go";
 import { IoMdStar } from "react-icons/io";
 import { PiHandshakeLight, PiMedal, PiTruck } from "react-icons/pi";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router";
+import { useParams } from "react-router";
 import Slider from "react-slick";
 import { toast, ToastContainer } from "react-toastify";
 import "slick-carousel/slick/slick-theme.css";
@@ -194,8 +194,8 @@ function ProductDetailPage() {
           <div className="flex items-center">
             <IoMdStar className="text-yellow-400 inline mr-2" />
             <span className="text-sm font-medium">
-            {loading ? "" : "4.7 Star Rating"}
-              </span>
+              {loading ? "" : "4.7 Star Rating"}
+            </span>
           </div>
           <h2
             className={`my-2 ${
@@ -338,12 +338,13 @@ function ProductDetailPage() {
                 className="text-orange-color font-medium text-sm border-orange-color border-2 outline-none py-2 px-2 rounded-sm sm:hidden lg:block 2xl:px-10"
                 onClick={() => {
                   dispatch(handleCheckout({ data })).then((dataPayment) => {
+                    console.log(dataPayment)
                     if (!userCurrent?.displayName) {
                       window.location.href =
                         "https://clicon-abfr.onrender.com/sign-in";
                       return;
                     }
-                    window.location.href = dataPayment?.payload?.url;
+                    // window.location.href = dataPayment?.payload?.url;
                   });
                 }}
               >

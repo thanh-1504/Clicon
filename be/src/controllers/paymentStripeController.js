@@ -3,7 +3,6 @@ const catchAsync = require("../ultils/catchAsync");
 dotenv.config({ path: "./config.env" });
 const stripe = require("stripe")(process.env.STRIPE_KEY);
 exports.paymentWithStripe = catchAsync(async (req, res) => {
-  console.log(req.body);
   let stripeCheckoutData = null;
   if (Array.isArray(req.body.data)) {
     stripeCheckoutData = req.body.data.map((item) => {
@@ -34,13 +33,14 @@ exports.paymentWithStripe = catchAsync(async (req, res) => {
       },
     ];
   }
+  console.log(process.env.CLIENT_URL_STRIPE_SUCCESS_LOCAL);
   const session = await stripe.checkout.sessions.create({
     line_items: stripeCheckoutData,
     mode: "payment",
     //success_url: `${req.protocol}://clicon-abfr.onrender.com/checkout-success`,
     // cancel_url: `${req.protocol}://clicon-abfr.onrender.com/cart`,
-    success_url: `${req.get('origin')}:/checkout-success`,
-    cancel_url: `${req.get('origin')}:/cart`,
+    success_url: `${process.env.CLIENT_URL_STRIPE_SUCCESS_LOCAL}/checkout-success`,
+    cancel_url: `${process.env.CLIENT_URL_STRIPE_SUCCESS_LOCAL}/cart`,
   });
 
   res.status(200).json({

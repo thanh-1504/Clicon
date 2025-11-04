@@ -339,7 +339,7 @@ function ShopPage() {
             </div>
             <span className="text-sm">
               {resultFound}{" "}
-              <span className="text-slate-500">Results found</span>
+              <span className="text-slate-500">results found</span>
             </span>
           </div>
           <div className="styled-select relative select-none">

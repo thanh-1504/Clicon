@@ -50,18 +50,12 @@ exports.signUp = catchAsync(async (req, res) => {
     passwordConfirm,
     role,
     userPicture,
-    jwtByGoogle,
     signInWithGoogle,
   } = req.body;
   const user = await User.findOne({ email }).select(
     "password name email userPicture role"
   );
   if (signInWithGoogle) {
-    res.cookie("jwt", jwtByGoogle, {
-      secure: process.env.NODE_ENV === "production",
-      httpOnly: true,
-      expires: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000),
-    });
     if (!user) {
       const newUser = await User.create({
         name,
@@ -80,7 +74,7 @@ exports.signUp = catchAsync(async (req, res) => {
           role: newUser.role,
           signInWithGoogle: true,
         },
-        token: jwtByGoogle,
+        token: logInAndSendUserWithToken(res, newUser, 200),
       });
     } else {
       return res.status(200).json({
@@ -92,7 +86,7 @@ exports.signUp = catchAsync(async (req, res) => {
           userPicture: user.userPicture,
           signInWithGoogle: true,
         },
-        token: jwtByGoogle,
+        token: logInAndSendUserWithToken(res, user, 200),
       });
     }
   } else {
@@ -115,20 +109,14 @@ exports.signIn = catchAsync(async (req, res) => {
     role,
     password,
     userPicture,
-    jwtByGoogle,
     signInWithGoogle,
   } = req.body;
   const user = await User.findOne({ email }).select(
     "password name email userPicture role"
   );
   if (signInWithGoogle) {
-    res.cookie("jwt", jwtByGoogle, {
-      secure: process.env.NODE_ENV === "production",
-      httpOnly: true,
-      expires: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000),
-    });
     if (!user) {
-      await User.create({
+      const newUser = await User.create({
         name,
         email,
         role,
@@ -144,7 +132,7 @@ exports.signIn = catchAsync(async (req, res) => {
           userPicture,
           signInWithGoogle: true,
         },
-        token: jwtByGoogle,
+        token: logInAndSendUserWithToken(res, newUser, 200),
       });
     }
     if (user) {
@@ -157,7 +145,7 @@ exports.signIn = catchAsync(async (req, res) => {
           userPicture: user.userPicture,
           signInWithGoogle: true,
         },
-        token: jwtByGoogle,
+        token: logInAndSendUserWithToken(res, user, 200),
       });
     }
   } else {
