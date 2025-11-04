@@ -34,7 +34,6 @@ export const handleSignUp = createAsyncThunk("user/signup", async (data) => {
 
 export const handleSignIn = createAsyncThunk("user/signin", async (data) => {
   try {
-    console.log(data);
     const response = await axios({
       url: api.signIn.url,
       method: api.signIn.method,
