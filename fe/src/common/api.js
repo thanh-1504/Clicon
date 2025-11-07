@@ -1,5 +1,5 @@
-const domain = "https://clicon-5ti2.onrender.com/api/v1";
-// const domain = "http://localhost:3000/api/v1";
+// const domain = "https://clicon-5ti2.onrender.com/api/v1";
+const domain = "http://localhost:3000/api/v1";
 export const api = {
   signUp: {
     url: `${domain}/user/signup`,

@@ -10,14 +10,6 @@ fireBaseAdmin.initializeApp({
   ),
 });
 
-const validateFirebaseToken = async (token) => {
-  try {
-    const decodedToken = await fireBaseAdmin.auth().verifyIdToken(token);
-    return decodedToken;
-  } catch (error) {
-    throw new AppError(401, "Invalid Firebase token");
-  }
-};
 
 const signToken = (idUser) => {
   return jwt.sign({ idUser }, process.env.SECRET_KEY, {
@@ -175,17 +167,6 @@ exports.protect = catchAsync(async (req, res, next) => {
   else if (req.cookies.jwt) token = req.cookies.jwt;
   if (!token) throw new AppError(400, "Please log in to continue !");
   try {
-    // Kiểm tra token Firebase
-    const firebaseDecoded = await validateFirebaseToken(token);
-    const currentUser = await User.findOne({ email: firebaseDecoded.email });
-    if (!currentUser)
-      throw new AppError(
-        404,
-        "The token belonging to this user is no longer available!"
-      );
-    req.user = currentUser;
-    next();
-  } catch (firebaseError) {
     const decoded = jwt.verify(token, process.env.SECRET_KEY);
     const currentUser = await User.findById(decoded.idUser);
     if (!currentUser)
@@ -195,6 +176,9 @@ exports.protect = catchAsync(async (req, res, next) => {
       );
     req.user = currentUser;
     next();
+  } catch (error) {
+    console.log(error);
+    throw error;
   }
 });
 

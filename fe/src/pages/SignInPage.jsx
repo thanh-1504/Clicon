@@ -12,7 +12,6 @@ import { handleAuthenticationWithGoogle } from "../common/authenticationWithGoog
 import { handleSignIn } from "../redux/request";
 import {
   handleShowPassWord,
-  setIsSignInWithGoogle,
   setLoading,
 } from "../redux/slices/signInSlice";
 const schema = yup.object({
@@ -22,7 +21,7 @@ const schema = yup.object({
 function SignInPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { showPassword, isSignInWithGoogle, loading } = useSelector(
+  const { showPassword,  loading } = useSelector(
     (state) => state.signIn
   );
   const {
@@ -39,7 +38,7 @@ function SignInPage() {
       if (response.payload?.status === "success") {
         dispatch(setLoading(false));
         toast.success("Sign in successfully", {
-          autoClose: 1500,
+          autoClose: 1000,
           pauseOnHover: false,
         });
         reset();
@@ -47,19 +46,16 @@ function SignInPage() {
           navigate("/");
         }, 2000);
       } else {
+      dispatch(setLoading(false));
         toast.error("Email or password is incorrect", {
-          autoClose: 1500,
+          autoClose: 1000,
           pauseOnHover: false,
         });
         return;
       }
     }
   };
-  useEffect(() => {
-    return () => {
-      dispatch(setIsSignInWithGoogle(false));
-    };
-  }, [dispatch]);
+
   return (
     <div className="flex items-center justify-center h-screen">
       <div className="w-full max-w-[400px] shadow-xl rounded bg-white ">
@@ -131,7 +127,7 @@ function SignInPage() {
             )}
           </div>
           <button
-            disabled={isSubmitting || isSignInWithGoogle}
+            disabled={isSubmitting}
             className={`text-white font-semibold uppercase flex items-center justify-center p-2 min-h-10 bg-[#fa8232]`}
           >
             {loading ? (
@@ -149,10 +145,8 @@ function SignInPage() {
           </div>
           <button
             type="button"
-            disabled={isSignInWithGoogle}
             className="flex items-center justify-center p-2 border-slate-300 border gap-x-2"
             onClick={async () => {
-              dispatch(setIsSignInWithGoogle(true));
               const userData = await handleAuthenticationWithGoogle(navigate);
               dispatch(
                 handleSignIn({
