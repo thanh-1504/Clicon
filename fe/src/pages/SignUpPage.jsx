@@ -72,7 +72,7 @@ function SignUpPage() {
           autoClose: 1500,
         });
         setTimeout(() => {
-          navigate("/sign-in");
+          navigate("/");
         }, 2000);
       }
     }
