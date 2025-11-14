@@ -85,8 +85,8 @@ exports.signUp = catchAsync(async (req, res) => {
     const newUser = await User.create({
       name,
       email,
-      password: password || "signInWithGoogle",
-      passwordConfirm: passwordConfirm || "signInWithGoogle",
+      password: password,
+      passwordConfirm: passwordConfirm,
       role,
       userPicture,
     });
