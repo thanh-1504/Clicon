@@ -13,7 +13,7 @@ export const handleSignUp = createAsyncThunk("user/signup", async (data) => {
       data: JSON.stringify(data),
     });
     const dataResponse = (await response).data;
-    if (data?.signInWithGoogle) {
+     const dataResponse = (await response).data;
       localStorage.setItem(
         "user",
         JSON.stringify({
@@ -21,10 +21,9 @@ export const handleSignUp = createAsyncThunk("user/signup", async (data) => {
           email: dataResponse.data?.email,
           userPicture: dataResponse.data?.userPicture,
           role: dataResponse.data?.role,
-          signInWithGoogle: dataResponse.data?.signInWithGoogle,
+          signInWithGoogle: dataResponse.data?.signInWithGoogle || null,
         })
       );
-    }
     return dataResponse;
   } catch (err) {
     console.log(err);
