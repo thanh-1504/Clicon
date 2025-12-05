@@ -13,7 +13,7 @@ export const handleSignUp = createAsyncThunk("user/signup", async (data) => {
       data: JSON.stringify(data),
     });
     const dataResponse = (await response).data;
-     const dataResponse = (await response).data;
+
       localStorage.setItem(
         "user",
         JSON.stringify({
