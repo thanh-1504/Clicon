@@ -6,7 +6,7 @@ function AdminPage() {
   window.scrollTo(0, 0);
   const currentUser = JSON.parse(localStorage.getItem("user"));
   return (
-    <div className="flex items-start container">
+    <div className="flex items-start">
       <aside className="w-[18%] min-h-screen pt-[80px]">
         <div className="flex items-center gap-x-3 pl-6">
           <img
